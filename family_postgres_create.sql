@@ -13,9 +13,9 @@
 
 		The purpose of this SQL code is to create a relational database used
 		to record, maintain, query, and report on personal family
-		geneological data.
+		genealogical data.
 
-		This geneology database has not been tested for compatibility with
+		This genealogy database has not been tested for compatibility with
 		the latest Genealogical Data Communication (GEDCOM) Standard.
 */
 
@@ -195,7 +195,7 @@ CREATE TABLE "family_event_object" (
 	"family_event_object_name" varchar NOT NULL,
 	"family_event_object_file" bit NOT NULL,
 	"family_event_object_notes" varchar,
-	"family_event_object_type" serial NOT NULL,
+	"family_event_object_type" integer NOT NULL,
 	CONSTRAINT family_event_object_pk PRIMARY KEY ("family_event_object_id")
 ) WITH (
   OIDS=FALSE
