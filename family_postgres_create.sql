@@ -5,13 +5,13 @@
 
 		You can find the latest version of this file, as well as
 		supporting documentation, including a visual representation
-		of the associated data model, for Family_postgres_create.sql
+		of the associated data model, for family_postgres_create.sql
 		at: https://github.com/sedelmeyer/family-genealogy-database
 
 		The following SQL code is compatible with PostgreSQL version 9.6
 		and has not been tested with any other SQL database engines.
 
-		The purpose of this SQL is to create a relational database used
+		The purpose of this SQL code is to create a relational database used
 		to record, maintain, query, and report on personal family
 		geneological data.
 
