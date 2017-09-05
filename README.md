@@ -40,4 +40,4 @@ See the embedded PNG below for a visual representation of these tables and assoc
 
 ## See Also
 
-Special thanks to **Barry Williams**, whose [suggested data model on databaseanswers.com](http://databaseanswers.org/data_models/genealogy/index.htm) was my starting point while building this model.
+Special thanks to **Barry Williams**, whose <a href="http://databaseanswers.org/data_models/genealogy/index.htm" target="_blank">suggested data model on databaseanswers.com</a> was my starting point while building this model.
