@@ -1,7 +1,7 @@
 /*
 		Author: 		Michael sedelmeyer
-		Version:		1.0
-		Published: 	2017-09-03
+		Version:		1.1
+		Published: 	2017-09-26
 
 		You can find the latest version of this file, as well as
 		supporting documentation, including a visual representation
@@ -20,27 +20,55 @@
 */
 
 CREATE TABLE "individual" (
-	"individual_id" serial NOT NULL,
-	"name_last" varchar NOT NULL,
-	"name_first" varchar NOT NULL,
-	"name_middle" varchar,
-	"name_maiden" varchar,
-	"name_familiar" varchar,
-	"gender" char(1) NOT NULL,
-	"date_birth" DATE NOT NULL,
-	"date_death" DATE,
-	"place_birth" varchar NOT NULL,
-	"place_death" varchar,
-	"cause_death" varchar,
-	"notes_other" varchar NOT NULL,
-	"parent_1_id" integer NOT NULL,
-	"parent_2_id" integer,
-	CONSTRAINT individual_pk PRIMARY KEY ("individual_id")
+	"individual_id" 			serial NOT NULL,
+	"name_last" 					varchar NOT NULL,
+	"name_first" 					varchar NOT NULL,
+	"name_middle" 				varchar,
+	"name_maiden" 				varchar,
+	"name_familiar" 			varchar,
+	"gender" 							char(1) NOT NULL,
+	"date_birth" 					DATE NOT NULL,
+	"date_death" 					DATE,
+	"place_birth" 				varchar NOT NULL,
+	"place_death" 				varchar,
+	"cause_death" 				varchar,
+	"individual_notes" 		text NOT NULL,
+	CONSTRAINT individual_pk
+		PRIMARY KEY ("individual_id")
 ) WITH (
   OIDS=FALSE
 );
 
+CREATE TABLE "parent_type" (
+	"parent_type_id" 				serial NOT NULL,
+	"parent_type_name" 			varchar NOT NULL,
+	"parent_type_notes"			text,
+	CONSTRAINT parent_type_pk
+		PRIMARY KEY ("parent_type_id")
+) WITH (
+	OIDS=FALSE
+);
 
+CREATE TABLE "parent" (
+	"parent_id" 						serial NOT NULL,
+	"individual_id" 				integer NOT NULL,
+	"parent_individual_id" 	integer NOT NULL,
+	"parent_type" 					integer NOT NULL,
+	"parent_notes" 					text,
+	CONSTRAINT parent_pk
+		PRIMARY KEY ("parent_id"),
+	CONSTRAINT parent_fk0
+		FOREIGN KEY ("individual_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT parent_fk1
+		FOREIGN KEY ("parent_individual_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT parent_fk2
+		FOREIGN KEY ("parent_type_id")
+		REFERENCES "individual"("individual_id")
+) WITH (
+	OIDS=FALSE
+);
 
 CREATE TABLE "family" (
 	"family_id" serial NOT NULL,
