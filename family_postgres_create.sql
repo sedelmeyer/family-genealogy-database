@@ -20,19 +20,19 @@
 */
 
 CREATE TABLE "individual" (
-	"individual_id" 			serial NOT NULL,
-	"name_last" 					varchar NOT NULL,
-	"name_first" 					varchar NOT NULL,
-	"name_middle" 				varchar,
-	"name_maiden" 				varchar,
-	"name_familiar" 			varchar,
-	"gender" 							char(1) NOT NULL,
-	"date_birth" 					DATE NOT NULL,
-	"date_death" 					DATE,
-	"place_birth" 				varchar NOT NULL,
-	"place_death" 				varchar,
-	"cause_death" 				varchar,
-	"individual_notes" 		text NOT NULL,
+	"individual_id" serial NOT NULL,
+	"name_last" varchar NOT NULL,
+	"name_first" varchar NOT NULL,
+	"name_middle" varchar,
+	"name_maiden" varchar,
+	"name_familiar" varchar,
+	"gender" char(1) NOT NULL,
+	"date_birth" DATE NOT NULL,
+	"date_death" DATE,
+	"place_birth" varchar NOT NULL,
+	"place_death" varchar,
+	"cause_death" varchar,
+	"individual_notes" text NOT NULL,
 	CONSTRAINT individual_pk
 		PRIMARY KEY ("individual_id")
 ) WITH (
@@ -40,9 +40,9 @@ CREATE TABLE "individual" (
 );
 
 CREATE TABLE "parent_type" (
-	"parent_type_id" 				serial NOT NULL,
-	"parent_type_name" 			varchar NOT NULL,
-	"parent_type_notes"			text,
+	"parent_type_id" serial NOT NULL,
+	"parent_type_name" varchar NOT NULL,
+	"parent_type_notes" text,
 	CONSTRAINT parent_type_pk
 		PRIMARY KEY ("parent_type_id")
 ) WITH (
@@ -50,11 +50,11 @@ CREATE TABLE "parent_type" (
 );
 
 CREATE TABLE "parent" (
-	"parent_id" 						serial NOT NULL,
-	"individual_id" 				integer NOT NULL,
-	"parent_individual_id" 	integer NOT NULL,
-	"parent_type" 					integer NOT NULL,
-	"parent_notes" 					text,
+	"parent_id" serial NOT NULL,
+	"individual_id" integer NOT NULL,
+	"parent_individual_id" integer NOT NULL,
+	"parent_type" integer NOT NULL,
+	"parent_notes" text,
 	CONSTRAINT parent_pk
 		PRIMARY KEY ("parent_id"),
 	CONSTRAINT parent_fk0
@@ -263,9 +263,6 @@ CREATE TABLE "role_type" (
 );
 
 
-
-ALTER TABLE "individual" ADD CONSTRAINT "individual_fk0" FOREIGN KEY ("parent_1_id") REFERENCES "individual"("individual_id");
-ALTER TABLE "individual" ADD CONSTRAINT "individual_fk1" FOREIGN KEY ("parent_2_id") REFERENCES "individual"("individual_id");
 
 ALTER TABLE "family" ADD CONSTRAINT "family_fk0" FOREIGN KEY ("family_head_1_id") REFERENCES "individual"("individual_id");
 ALTER TABLE "family" ADD CONSTRAINT "family_fk1" FOREIGN KEY ("family_head_2_id") REFERENCES "individual"("individual_id");
