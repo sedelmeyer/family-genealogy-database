@@ -78,13 +78,36 @@ CREATE TABLE "family" (
 	"family_description" varchar,
 	"family_date_start" DATE NOT NULL,
 	"family_date_end" DATE,
-	"family_notes_other" varchar,
-	CONSTRAINT family_pk PRIMARY KEY ("family_id")
+	"family_notes_other" text,
+	CONSTRAINT family_pk
+		PRIMARY KEY ("family_id"),
+	CONSTRAINT family_fk0
+		FOREIGN KEY ("family_head_1_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT family_fk1
+		FOREIGN KEY ("family_head_2_id")
+		REFERENCES "individual"("individual_id")
 ) WITH (
   OIDS=FALSE
 );
 
+CREATE TABLE "relationship_type" (
+	"relationship_type_id" serial NOT NULL,
+	"relationship_type_name" varchar NOT NULL,
+	"relationship_type_notes" varchar,
+	CONSTRAINT relationship_type_pk PRIMARY KEY ("relationship_type_id")
+) WITH (
+  OIDS=FALSE
+);
 
+CREATE TABLE "role_type" (
+	"role_type_id" serial NOT NULL,
+	"role_type_name" varchar NOT NULL,
+	"role_type_notes" varchar NOT NULL,
+	CONSTRAINT role_type_pk PRIMARY KEY ("role_type_id")
+) WITH (
+  OIDS=FALSE
+);
 
 CREATE TABLE "relationship" (
 	"relationship_id" serial NOT NULL,
@@ -96,24 +119,42 @@ CREATE TABLE "relationship" (
 	"Inidividual_2_role_id" integer NOT NULL,
 	"relationship_date_start" DATE NOT NULL,
 	"relationship_date_end" DATE,
-	"relationship_notes" varchar,
-	CONSTRAINT relationship_pk PRIMARY KEY ("relationship_id")
+	"relationship_notes" text,
+	CONSTRAINT relationship_pk
+		PRIMARY KEY ("relationship_id")
+	CONSTRAINT relationship_fk0
+		FOREIGN KEY ("relationship_type_id")
+		REFERENCES "relationship_type"("relationship_type_id"),
+	CONSTRAINT relationship_fk1
+		FOREIGN KEY ("family_id")
+		REFERENCES "family"("family_id"),
+	CONSTRAINT relationship_fk2
+		FOREIGN KEY ("individual_1_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT relationship_fk3
+		FOREIGN KEY ("individual_2_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT relationship_fk4
+		FOREIGN KEY ("Inidividual_1_role_id")
+		REFERENCES "role_type"("role_type_id"),
+	CONSTRAINT relationship_fk5
+		FOREIGN KEY ("Inidividual_2_role_id")
+		REFERENCES "role_type"("role_type_id"),
 ) WITH (
   OIDS=FALSE
 );
-
 
 
 CREATE TABLE "occupation_type" (
 	"occupation_type_id" serial NOT NULL,
 	"profession_name" varchar NOT NULL,
 	"profession_description" varchar,
-	"profession_notes" varchar,
-	CONSTRAINT occupation_type_pk PRIMARY KEY ("occupation_type_id")
+	"profession_notes" text,
+	CONSTRAINT occupation_type_pk
+		PRIMARY KEY ("occupation_type_id")
 ) WITH (
   OIDS=FALSE
 );
-
 
 
 CREATE TABLE "occupation" (
@@ -123,59 +164,54 @@ CREATE TABLE "occupation" (
 	"profession_date_start" DATE NOT NULL,
 	"profession_date_end" DATE,
 	"profession_notes" varchar,
-	CONSTRAINT occupation_pk PRIMARY KEY ("occupation_id")
+	CONSTRAINT occupation_pk
+		PRIMARY KEY ("occupation_id"),
+	CONSTRAINT occupation_fk0
+		FOREIGN KEY ("individual_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT occupation_fk1
+		FOREIGN KEY ("occupation_type_id")
+		REFERENCES "occupation_type"("occupation_type_id")
 ) WITH (
   OIDS=FALSE
 );
 
-
-
-CREATE TABLE "family_event" (
-	"family_event_id" serial NOT NULL,
-	"family_id" serial NOT NULL,
-	"family_event_name" varchar NOT NULL,
-	"family_event_date" DATE,
-	"family_event_notes" varchar,
-	CONSTRAINT family_event_pk PRIMARY KEY ("family_event_id")
+CREATE TABLE "health_condition_type" (
+	"health_condition_type_id" serial NOT NULL,
+	"health_condition_type_name" varchar NOT NULL,
+	"health_condition_type_notes" text,
+	CONSTRAINT health_condition_type_pk
+		PRIMARY KEY ("health_condition_type_id")
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "health_condition" (
 	"health_condition_id" serial NOT NULL,
 	"individual_id" integer NOT NULL,
 	"health_condition_type_id" integer NOT NULL,
 	"health_condition_notes" varchar,
-	CONSTRAINT health_condition_pk PRIMARY KEY ("health_condition_id")
+	CONSTRAINT health_condition_pk
+		PRIMARY KEY ("health_condition_id"),
+	CONSTRAINT health_condition_fk0
+		FOREIGN KEY ("individual_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT health_condition_fk1
+		FOREIGN KEY ("health_condition_type_id")
+		REFERENCES "health_condition_type"("health_condition_type_id")
 ) WITH (
   OIDS=FALSE
 );
 
-
-
-CREATE TABLE "health_condition_type" (
-	"health_condition_type_id" serial NOT NULL,
-	"health_condition_type_name" varchar NOT NULL,
-	"health_condition_type_notes" varchar,
-	CONSTRAINT health_condition_type_pk PRIMARY KEY ("health_condition_type_id")
+CREATE TABLE "education_type" (
+	"education_type_id" serial NOT NULL,
+	"education_type_name" varchar NOT NULL,
+	"education_type_notes" varchar,
+	CONSTRAINT education_type_pk
+		PRIMARY KEY ("education_type_id")
 ) WITH (
   OIDS=FALSE
 );
-
-
-
-CREATE TABLE "relationship_type" (
-	"relationship_type_id" serial NOT NULL,
-	"relationship_type_name" varchar NOT NULL,
-	"relationship_type_notes" varchar,
-	CONSTRAINT relationship_type_pk PRIMARY KEY ("relationship_type_id")
-) WITH (
-  OIDS=FALSE
-);
-
-
 
 CREATE TABLE "education" (
 	"education_id" serial NOT NULL,
@@ -185,51 +221,17 @@ CREATE TABLE "education" (
 	"education_institution" varchar,
 	"education_field" varchar,
 	"education_notes" varchar,
-	CONSTRAINT education_pk PRIMARY KEY ("education_id")
+	CONSTRAINT education_pk
+		PRIMARY KEY ("education_id"),
+	CONSTRAINT education_fk0
+		FOREIGN KEY ("individual_id")
+		REFERENCES "individual"("individual_id"),
+	CONSTRAINT education_fk1
+		FOREIGN KEY ("education_type_id")
+		REFERENCES "education_type"("education_type_id");
 ) WITH (
   OIDS=FALSE
 );
-
-
-
-CREATE TABLE "individual_memory" (
-	"individual_memory_id" serial NOT NULL,
-	"individual_id" integer NOT NULL,
-	"individual_memory_name" varchar NOT NULL,
-	"individual_memory_date" DATE,
-	"individual_memory_notes" varchar,
-	"individual_memory_object" bit,
-	CONSTRAINT individual_memory_pk PRIMARY KEY ("individual_memory_id")
-) WITH (
-  OIDS=FALSE
-);
-
-
-
-CREATE TABLE "education_type" (
-	"education_type_id" serial NOT NULL,
-	"education_type_name" varchar NOT NULL,
-	"education_type_notes" varchar,
-	CONSTRAINT education_type_pk PRIMARY KEY ("education_type_id")
-) WITH (
-  OIDS=FALSE
-);
-
-
-
-CREATE TABLE "family_event_object" (
-	"family_event_object_id" serial NOT NULL,
-	"family_event_id" serial NOT NULL,
-	"family_event_object_name" varchar NOT NULL,
-	"family_event_object_file" bit NOT NULL,
-	"family_event_object_notes" varchar,
-	"family_event_object_type" integer NOT NULL,
-	CONSTRAINT family_event_object_pk PRIMARY KEY ("family_event_object_id")
-) WITH (
-  OIDS=FALSE
-);
-
-
 
 CREATE TABLE "object_type" (
 	"object_type_id" serial NOT NULL,
@@ -240,60 +242,69 @@ CREATE TABLE "object_type" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "individual_memory_object" (
 	"individual_memory_object_id" serial NOT NULL,
 	"object_type_id" integer NOT NULL,
 	"individual_memory_id" integer NOT NULL,
-	CONSTRAINT individual_memory_object_pk PRIMARY KEY ("individual_memory_object_id")
+	CONSTRAINT individual_memory_object_pk
+		PRIMARY KEY ("individual_memory_object_id"),
+	CONSTRAINT individual_memory_object_fk0
+		FOREIGN KEY ("object_type_id")
+		REFERENCES "object_type"("object_type_id"),
+	CONSTRAINT individual_memory_object_fk1
+		FOREIGN KEY ("individual_memory_id")
+		REFERENCES "individual_memory"("individual_memory_id")
 ) WITH (
   OIDS=FALSE
 );
 
 
-
-CREATE TABLE "role_type" (
-	"role_type_id" serial NOT NULL,
-	"role_type_name" varchar NOT NULL,
-	"role_type_notes" varchar NOT NULL,
-	CONSTRAINT role_type_pk PRIMARY KEY ("role_type_id")
+CREATE TABLE "individual_memory" (
+	"individual_memory_id" serial NOT NULL,
+	"individual_id" integer NOT NULL,
+	"individual_memory_name" varchar NOT NULL,
+	"individual_memory_date" DATE,
+	"individual_memory_notes" varchar,
+	"individual_memory_object" bit,
+	CONSTRAINT individual_memory_pk
+		PRIMARY KEY ("individual_memory_id"),
+	CONSTRAINT individual_memory_fk0
+		FOREIGN KEY ("individual_id")
+		REFERENCES "individual"("individual_id")
 ) WITH (
   OIDS=FALSE
 );
 
+CREATE TABLE "family_memory_object" (
+	"family_memory_object_id" serial NOT NULL,
+	"family_memory_id" serial NOT NULL,
+	"family_memory_object_name" varchar NOT NULL,
+	"family_memory_object_file" bit NOT NULL,
+	"family_memory_object_notes" varchar,
+	"family_memory_object_type" integer NOT NULL,
+	CONSTRAINT family_memory_object_pk
+		PRIMARY KEY ("family_memory_object_id"),
+	CONSTRAINT family_memory_object_fk0
+		FOREIGN KEY ("family_memory_id")
+		REFERENCES "family_memory"("family_memory_id"),
+	CONSTRAINT family_memory_object_fk1
+		FOREIGN KEY ("family_memory_object_type")
+		REFERENCES "object_type"("object_type_id")
+) WITH (
+  OIDS=FALSE
+);
 
-
-ALTER TABLE "family" ADD CONSTRAINT "family_fk0" FOREIGN KEY ("family_head_1_id") REFERENCES "individual"("individual_id");
-ALTER TABLE "family" ADD CONSTRAINT "family_fk1" FOREIGN KEY ("family_head_2_id") REFERENCES "individual"("individual_id");
-
-ALTER TABLE "relationship" ADD CONSTRAINT "relationship_fk0" FOREIGN KEY ("relationship_type_id") REFERENCES "relationship_type"("relationship_type_id");
-ALTER TABLE "relationship" ADD CONSTRAINT "relationship_fk1" FOREIGN KEY ("family_id") REFERENCES "family"("family_id");
-ALTER TABLE "relationship" ADD CONSTRAINT "relationship_fk2" FOREIGN KEY ("individual_1_id") REFERENCES "individual"("individual_id");
-ALTER TABLE "relationship" ADD CONSTRAINT "relationship_fk3" FOREIGN KEY ("individual_2_id") REFERENCES "individual"("individual_id");
-ALTER TABLE "relationship" ADD CONSTRAINT "relationship_fk4" FOREIGN KEY ("Inidividual_1_role_id") REFERENCES "role_type"("role_type_id");
-ALTER TABLE "relationship" ADD CONSTRAINT "relationship_fk5" FOREIGN KEY ("Inidividual_2_role_id") REFERENCES "role_type"("role_type_id");
-
-
-ALTER TABLE "occupation" ADD CONSTRAINT "occupation_fk0" FOREIGN KEY ("individual_id") REFERENCES "individual"("individual_id");
-ALTER TABLE "occupation" ADD CONSTRAINT "occupation_fk1" FOREIGN KEY ("occupation_type_id") REFERENCES "occupation_type"("occupation_type_id");
-
-ALTER TABLE "family_event" ADD CONSTRAINT "family_event_fk0" FOREIGN KEY ("family_id") REFERENCES "family"("family_id");
-
-ALTER TABLE "health_condition" ADD CONSTRAINT "health_condition_fk0" FOREIGN KEY ("individual_id") REFERENCES "individual"("individual_id");
-ALTER TABLE "health_condition" ADD CONSTRAINT "health_condition_fk1" FOREIGN KEY ("health_condition_type_id") REFERENCES "health_condition_type"("health_condition_type_id");
-
-
-
-ALTER TABLE "education" ADD CONSTRAINT "education_fk0" FOREIGN KEY ("individual_id") REFERENCES "individual"("individual_id");
-ALTER TABLE "education" ADD CONSTRAINT "education_fk1" FOREIGN KEY ("education_type_id") REFERENCES "education_type"("education_type_id");
-
-ALTER TABLE "individual_memory" ADD CONSTRAINT "individual_memory_fk0" FOREIGN KEY ("individual_id") REFERENCES "individual"("individual_id");
-
-
-ALTER TABLE "family_event_object" ADD CONSTRAINT "family_event_object_fk0" FOREIGN KEY ("family_event_id") REFERENCES "family_event"("family_event_id");
-ALTER TABLE "family_event_object" ADD CONSTRAINT "family_event_object_fk1" FOREIGN KEY ("family_event_object_type") REFERENCES "object_type"("object_type_id");
-
-
-ALTER TABLE "individual_memory_object" ADD CONSTRAINT "individual_memory_object_fk0" FOREIGN KEY ("object_type_id") REFERENCES "object_type"("object_type_id");
-ALTER TABLE "individual_memory_object" ADD CONSTRAINT "individual_memory_object_fk1" FOREIGN KEY ("individual_memory_id") REFERENCES "individual_memory"("individual_memory_id");
+CREATE TABLE "family_memory" (
+	"family_memory_id" serial NOT NULL,
+	"family_id" serial NOT NULL,
+	"family_memory_name" varchar NOT NULL,
+	"family_memory_date" DATE,
+	"family_memory_notes" varchar,
+	CONSTRAINT family_memory_pk
+		PRIMARY KEY ("family_memory_id"),
+	CONSTRAINT family_memory_fk0
+		FOREIGN KEY ("family_id")
+		REFERENCES "family"("family_id")
+) WITH (
+  OIDS=FALSE
+);
