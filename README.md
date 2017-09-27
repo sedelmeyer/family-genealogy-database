@@ -12,9 +12,11 @@ to record, maintain, query, and report on personal family genealogical data.<P>
 
 ## Data Model
 
-The current version of the data model (2017-09-03) contains the following tables listed below: 
+The current version of the data model (2017-09-26) contains the following tables listed below: 
 
 1. individual
+1. parent
+1. parent_type
 1. family
 1. relationship
 1. occupation
