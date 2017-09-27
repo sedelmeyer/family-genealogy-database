@@ -53,7 +53,7 @@ CREATE TABLE "parent" (
 	"parent_id" serial NOT NULL,
 	"individual_id" integer NOT NULL,
 	"parent_individual_id" integer NOT NULL,
-	"parent_type" integer NOT NULL,
+	"parent_type_id" integer NOT NULL,
 	"parent_notes" text,
 	CONSTRAINT parent_pk
 		PRIMARY KEY ("parent_id"),
@@ -121,7 +121,7 @@ CREATE TABLE "relationship" (
 	"relationship_date_end" DATE,
 	"relationship_notes" text,
 	CONSTRAINT relationship_pk
-		PRIMARY KEY ("relationship_id")
+		PRIMARY KEY ("relationship_id"),
 	CONSTRAINT relationship_fk0
 		FOREIGN KEY ("relationship_type_id")
 		REFERENCES "relationship_type"("relationship_type_id"),
@@ -139,7 +139,7 @@ CREATE TABLE "relationship" (
 		REFERENCES "role_type"("role_type_id"),
 	CONSTRAINT relationship_fk5
 		FOREIGN KEY ("Inidividual_2_role_id")
-		REFERENCES "role_type"("role_type_id"),
+		REFERENCES "role_type"("role_type_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -228,7 +228,7 @@ CREATE TABLE "education" (
 		REFERENCES "individual"("individual_id"),
 	CONSTRAINT education_fk1
 		FOREIGN KEY ("education_type_id")
-		REFERENCES "education_type"("education_type_id");
+		REFERENCES "education_type"("education_type_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -238,6 +238,22 @@ CREATE TABLE "object_type" (
 	"object_type_name" varchar NOT NULL,
 	"object_type_notes" varchar,
 	CONSTRAINT object_type_pk PRIMARY KEY ("object_type_id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "individual_memory" (
+	"individual_memory_id" serial NOT NULL,
+	"individual_id" integer NOT NULL,
+	"individual_memory_name" varchar NOT NULL,
+	"individual_memory_date" DATE,
+	"individual_memory_notes" varchar,
+	"individual_memory_object" bit,
+	CONSTRAINT individual_memory_pk
+		PRIMARY KEY ("individual_memory_id"),
+	CONSTRAINT individual_memory_fk0
+		FOREIGN KEY ("individual_id")
+		REFERENCES "individual"("individual_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -258,19 +274,17 @@ CREATE TABLE "individual_memory_object" (
   OIDS=FALSE
 );
 
-
-CREATE TABLE "individual_memory" (
-	"individual_memory_id" serial NOT NULL,
-	"individual_id" integer NOT NULL,
-	"individual_memory_name" varchar NOT NULL,
-	"individual_memory_date" DATE,
-	"individual_memory_notes" varchar,
-	"individual_memory_object" bit,
-	CONSTRAINT individual_memory_pk
-		PRIMARY KEY ("individual_memory_id"),
-	CONSTRAINT individual_memory_fk0
-		FOREIGN KEY ("individual_id")
-		REFERENCES "individual"("individual_id")
+CREATE TABLE "family_memory" (
+	"family_memory_id" serial NOT NULL,
+	"family_id" serial NOT NULL,
+	"family_memory_name" varchar NOT NULL,
+	"family_memory_date" DATE,
+	"family_memory_notes" varchar,
+	CONSTRAINT family_memory_pk
+		PRIMARY KEY ("family_memory_id"),
+	CONSTRAINT family_memory_fk0
+		FOREIGN KEY ("family_id")
+		REFERENCES "family"("family_id")
 ) WITH (
   OIDS=FALSE
 );
@@ -290,21 +304,6 @@ CREATE TABLE "family_memory_object" (
 	CONSTRAINT family_memory_object_fk1
 		FOREIGN KEY ("family_memory_object_type")
 		REFERENCES "object_type"("object_type_id")
-) WITH (
-  OIDS=FALSE
-);
-
-CREATE TABLE "family_memory" (
-	"family_memory_id" serial NOT NULL,
-	"family_id" serial NOT NULL,
-	"family_memory_name" varchar NOT NULL,
-	"family_memory_date" DATE,
-	"family_memory_notes" varchar,
-	CONSTRAINT family_memory_pk
-		PRIMARY KEY ("family_memory_id"),
-	CONSTRAINT family_memory_fk0
-		FOREIGN KEY ("family_id")
-		REFERENCES "family"("family_id")
 ) WITH (
   OIDS=FALSE
 );
