@@ -1,7 +1,7 @@
 /*
 		Author: 		Michael sedelmeyer
-		Version:		1.1
-		Published: 	2017-09-26
+		Version:		1.1.1
+		Published: 	2017-10-12
 
 		You can find the latest version of this file, as well as
 		supporting documentation, including a visual representation
