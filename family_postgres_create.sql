@@ -248,7 +248,7 @@ CREATE TABLE "individual_memory" (
 	"individual_memory_name" varchar NOT NULL,
 	"individual_memory_date" DATE,
 	"individual_memory_notes" varchar,
-	"individual_memory_object" bit,
+	"individual_memory_object" bytea,
 	CONSTRAINT individual_memory_pk
 		PRIMARY KEY ("individual_memory_id"),
 	CONSTRAINT individual_memory_fk0
@@ -293,7 +293,7 @@ CREATE TABLE "family_memory_object" (
 	"family_memory_object_id" serial NOT NULL,
 	"family_memory_id" serial NOT NULL,
 	"family_memory_object_name" varchar NOT NULL,
-	"family_memory_object_file" bit NOT NULL,
+	"family_memory_object_file" bytea NOT NULL,
 	"family_memory_object_notes" varchar,
 	"family_memory_object_type" integer NOT NULL,
 	CONSTRAINT family_memory_object_pk
