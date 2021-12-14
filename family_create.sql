@@ -35,8 +35,6 @@ CREATE TABLE "individual" (
 	"individual_notes" text NOT NULL,
 	CONSTRAINT individual_pk
 		PRIMARY KEY ("individual_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "parent_type" (
@@ -45,8 +43,6 @@ CREATE TABLE "parent_type" (
 	"parent_type_notes" text,
 	CONSTRAINT parent_type_pk
 		PRIMARY KEY ("parent_type_id")
-) WITH (
-	OIDS=FALSE
 );
 
 CREATE TABLE "parent" (
@@ -66,8 +62,6 @@ CREATE TABLE "parent" (
 	CONSTRAINT parent_fk2
 		FOREIGN KEY ("parent_type_id")
 		REFERENCES "individual"("individual_id")
-) WITH (
-	OIDS=FALSE
 );
 
 CREATE TABLE "family" (
@@ -87,8 +81,6 @@ CREATE TABLE "family" (
 	CONSTRAINT family_fk1
 		FOREIGN KEY ("family_head_2_id")
 		REFERENCES "individual"("individual_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "relationship_type" (
@@ -96,8 +88,6 @@ CREATE TABLE "relationship_type" (
 	"relationship_type_name" varchar NOT NULL,
 	"relationship_type_notes" varchar,
 	CONSTRAINT relationship_type_pk PRIMARY KEY ("relationship_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "role_type" (
@@ -105,8 +95,6 @@ CREATE TABLE "role_type" (
 	"role_type_name" varchar NOT NULL,
 	"role_type_notes" varchar NOT NULL,
 	CONSTRAINT role_type_pk PRIMARY KEY ("role_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "relationship" (
@@ -140,8 +128,6 @@ CREATE TABLE "relationship" (
 	CONSTRAINT relationship_fk5
 		FOREIGN KEY ("Inidividual_2_role_id")
 		REFERENCES "role_type"("role_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 
@@ -152,8 +138,6 @@ CREATE TABLE "occupation_type" (
 	"profession_notes" text,
 	CONSTRAINT occupation_type_pk
 		PRIMARY KEY ("occupation_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 
@@ -172,8 +156,6 @@ CREATE TABLE "occupation" (
 	CONSTRAINT occupation_fk1
 		FOREIGN KEY ("occupation_type_id")
 		REFERENCES "occupation_type"("occupation_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "health_condition_type" (
@@ -182,8 +164,6 @@ CREATE TABLE "health_condition_type" (
 	"health_condition_type_notes" text,
 	CONSTRAINT health_condition_type_pk
 		PRIMARY KEY ("health_condition_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "health_condition" (
@@ -199,8 +179,6 @@ CREATE TABLE "health_condition" (
 	CONSTRAINT health_condition_fk1
 		FOREIGN KEY ("health_condition_type_id")
 		REFERENCES "health_condition_type"("health_condition_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "education_type" (
@@ -209,8 +187,6 @@ CREATE TABLE "education_type" (
 	"education_type_notes" varchar,
 	CONSTRAINT education_type_pk
 		PRIMARY KEY ("education_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "education" (
@@ -229,8 +205,6 @@ CREATE TABLE "education" (
 	CONSTRAINT education_fk1
 		FOREIGN KEY ("education_type_id")
 		REFERENCES "education_type"("education_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "object_type" (
@@ -238,8 +212,6 @@ CREATE TABLE "object_type" (
 	"object_type_name" varchar NOT NULL,
 	"object_type_notes" varchar,
 	CONSTRAINT object_type_pk PRIMARY KEY ("object_type_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "individual_memory" (
@@ -254,8 +226,6 @@ CREATE TABLE "individual_memory" (
 	CONSTRAINT individual_memory_fk0
 		FOREIGN KEY ("individual_id")
 		REFERENCES "individual"("individual_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "individual_memory_object" (
@@ -270,8 +240,6 @@ CREATE TABLE "individual_memory_object" (
 	CONSTRAINT individual_memory_object_fk1
 		FOREIGN KEY ("individual_memory_id")
 		REFERENCES "individual_memory"("individual_memory_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "family_memory" (
@@ -285,8 +253,6 @@ CREATE TABLE "family_memory" (
 	CONSTRAINT family_memory_fk0
 		FOREIGN KEY ("family_id")
 		REFERENCES "family"("family_id")
-) WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE "family_memory_object" (
@@ -304,6 +270,4 @@ CREATE TABLE "family_memory_object" (
 	CONSTRAINT family_memory_object_fk1
 		FOREIGN KEY ("family_memory_object_type")
 		REFERENCES "object_type"("object_type_id")
-) WITH (
-  OIDS=FALSE
 );
